@@ -1,0 +1,39 @@
+{
+    "name": "tomato-technologies/tomato-omipay",
+    "version":"0.0.1",
+    "type": "library",
+    "description": "OmiPay for Laravel project",
+    "keywords": ["tomato technologies"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Wayne Wen",
+            "email": "wayne.w@tomatotechnologies.com.au"
+        }
+    ],
+    "require": {
+        "illuminate/queue": "5.2.x|5.3.x|5.4.x|5.5.x|5.6.x|5.7.x",
+        "illuminate/contracts": "5.2.x|5.3.x|5.4.x|5.5.x|5.6.x|5.7.x",
+        "illuminate/support": "5.2.x|5.3.x|5.4.x|5.5.x|5.6.x|5.7.x"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tomato\\OmiPay\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tomato\\OmiPay\\ServiceProvider"
+            ],
+            "aliases": {
+                "TomatoOmiPay": "Tomato\\OmiPay\\Facade"
+            }
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "echo \"Please remember to set ENV value for these two keys: 'OMIPAY_MERCHANT_NO' and 'OMIPAY_MERCHANT_KEY'\""
+        ]
+    }
+}
