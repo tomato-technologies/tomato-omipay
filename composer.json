@@ -1,6 +1,5 @@
 {
     "name": "tomato-technologies/tomato-omipay",
-    "version":"0.0.1",
     "type": "library",
     "description": "OmiPay for Laravel project",
     "keywords": ["tomato technologies"],
