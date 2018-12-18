@@ -3,7 +3,7 @@
 ## Installation
 
 ```shell
-composer require tomatotech/tomato-omipay
+composer require tomato-technologies/tomato-omipay
 ```
 
 Laravel 5.5 uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider.
