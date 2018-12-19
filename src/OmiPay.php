@@ -191,9 +191,7 @@ class OmiPay
      * */
     public function getOpenId($url, $timeOut = 100)
     {
-        $response = $this->getJsonCurl($url);
-        $result = $this->processResponse($response);
-        return $result;
+        return $this->getJsonCurl($url);
     }
 
     protected function setDomain($name)
@@ -343,12 +341,12 @@ class OmiPay
         //返回结果
         if ($data) {
             curl_close($ch);
-            return $this->processResponse($data);
+            return $this->processResponse($data,data_get($inputObj->getParameters(),"redirect_url"));
         } else {
             $error = curl_errno($ch);
             curl_close($ch);
             // throw new OmiPayException("curl出错，错误码:$error");
-            return json_encode(array("curl error code" => $error));
+            return array("curl error code" => $error);
         }
     }
 
@@ -396,12 +394,12 @@ class OmiPay
         //返回结果
         if ($data) {
             curl_close($ch);
-            return $this->processResponse($data);
+            return $this->processResponse($data,data_get($inputObj->getParameters(),"redirect_url"));
         } else {
             $error = curl_errno($ch);
             curl_close($ch);
             // throw new OmiPayException("curl出错，错误码:$error");
-            return json_encode(array("curl error code" => $error));
+            return array("curl error code" => $error);
         }
 
     }
@@ -424,7 +422,7 @@ class OmiPay
         return $time2;
     }
 
-    private function processResponse($response)
+    private function processResponse($response,$redirectURL=null)
     {
         $result= json_decode($response, true);
         if(array_get($result,"return_code")!="SUCCESS"){
@@ -434,7 +432,7 @@ class OmiPay
             throw $exception;
         }
         if(array_key_exists("pay_url",$result)){
-            $result["pay_url"]=$this->getRedirectUrl($result["pay_url"],new OmiRequest());
+            $result["pay_url"]=$this->getRedirectUrl($result["pay_url"],new OmiRequest()).($redirectURL?("&redirect_url=".urlencode($redirectURL)):"");
         }
         return $result;
     }

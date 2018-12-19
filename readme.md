@@ -3,7 +3,7 @@
 ## Installation
 
 ```shell
-composer require tomatotech/tomato-omipay
+composer require tomato-technologies/tomato-omipay
 ```
 
 Laravel 5.5 uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider.
@@ -79,4 +79,40 @@ Here is example handler, `$data` is an array containing all request data (https:
     public function onOmipayNotice($data=[]){
         \Log::info(json_encode($data));
     }
+```
+
+### Change Logs
+Updates on 19 Dec 2018:
+
+For any Omipay order which support "redirect_url", this package will include the "redirect_url" to the "pay_url", for example
+
+Before:
+
+```php
+    $qrRequest=new \Tomato\OmiPay\Requests\Payment\QROrderRequest();
+    $qrRequest->setOrderName("Test Product 1");
+    $qrRequest->setCurrency("AUD");
+    $qrRequest->setAmount(1*100);//1 dollar
+    $qrRequest->setNotifyUrl(route("opmipay-notification"));
+    $qrRequest->setOutOrderNo("10001");
+    $qrRequest->setPlatform("ALIPAY");
+    $result=\TomatoOmiPay::qrOrder($qrRequest);
+    
+    $redirectURL=route("thank-you-page",["order_id"=>10001]);
+    $directCusomterToURL=data_get($result,"pay_url")."&redirect_url=".urlencode($redirectURL);
+```
+
+After:
+```php
+    $qrRequest=new \Tomato\OmiPay\Requests\Payment\QROrderRequest();
+    $qrRequest->setOrderName("Test Product 1");
+    $qrRequest->setCurrency("AUD");
+    $qrRequest->setAmount(1*100);//1 dollar
+    $qrRequest->setNotifyUrl(route("opmipay-notification"));
+    $qrRequest->setRedirectUrl(route("thank-you-page",["order_id"=>10001]))
+    $qrRequest->setOutOrderNo("10001");
+    $qrRequest->setPlatform("ALIPAY");
+    $result=\TomatoOmiPay::qrOrder($qrRequest);
+ 
+    $directCusomterToURL=data_get($result,"pay_url");
 ```
