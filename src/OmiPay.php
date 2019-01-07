@@ -75,7 +75,7 @@ class OmiPay
      */
     public function orderQuery($inputObj, $timeOut = 10)
     {
-        $this->setDomain("OmiOrderRequest");
+        $this->setDomain("QueryOrder");
         return $this->getJsonCurl($inputObj, $timeOut);
     }
 
